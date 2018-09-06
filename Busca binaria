@@ -9,7 +9,7 @@ public class Main {
     	Scanner S1 = new Scanner(System.in);
         Endereco e = new Endereco();
         
-        String cep; // o cep foi colocado em String, pra poder fazer comparações caso necessite de restri��es da String.
+        String cep; // o cep foi colocado em String, pra poder fazer comparações caso necessite de restrições da String.
         RandomAccessFile f = new RandomAccessFile("cep_ordenado.dat", "r");
         if (f.length() == 0) {
         	S1.close();
