@@ -27,30 +27,30 @@ public class Main {
 	} while (cep.length() != 8 );
        
 
-        long fimBit = f.length();
-        long inicioBit = 0;
-        long meioBit;
+        long fimByte = f.length();
+        long inicioByte = 0;
+        long meioByte;
         long meioEnd;
         int a = 0;
         boolean foundFlag = false;
         
          
-        while (inicioBit < fimBit && fimBit-inicioBit > 300) {
+        while (inicioByte < fimByte && fimByte-inicioByte > 300) {
             a++;
-            meioBit = (inicioBit + fimBit) / 2;
-            if (meioBit % 300 != 0) {
-                meioEnd = (meioBit - 150) / 300; //Na prática dá no mesmo que simplesmente fazer a divisão
+            meioByte = (inicioByte + fimByte) / 2;
+            if (meioByte % 300 != 0) {
+                meioEnd = (meioByte - 150) / 300; //Na prática dá no mesmo que simplesmente fazer a divisão
             } else {
-                meioEnd = meioBit / 300;
+                meioEnd = meioByte / 300;
             }
             f.seek(meioEnd * 300);
             e.leEndereco(f);
             int cepDigitado = Integer.parseInt(cep);            
             if (cepDigitado > Integer.parseInt(e.getCep())) {
-                inicioBit = meioBit;
+                inicioByte = meioByte;
          
             } else if (cepDigitado < Integer.parseInt(e.getCep())) {
-                fimBit = meioBit;                
+                fimByte = meioByte;                
            
             } else {
                 System.out.println(e.getLogradouro());
