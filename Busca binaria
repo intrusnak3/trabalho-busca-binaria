@@ -1,4 +1,4 @@
-package busca;
+package buscabinaria;
 
 import java.io.RandomAccessFile;
 import java.util.Scanner;
