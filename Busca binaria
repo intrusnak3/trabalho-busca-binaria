@@ -1,0 +1,74 @@
+package busca;
+
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+    	Scanner S1 = new Scanner(System.in);
+        Endereco e = new Endereco();
+        
+        String cep; // o cep foi colocado em String, pra poder fazer comparações caso necessite de restri��es da String.
+        RandomAccessFile f = new RandomAccessFile("cep_ordenado.dat", "r");
+        if (f.length() == 0) {
+        	S1.close();
+        	f.close();
+            throw new RuntimeException("o arquivo esta vazio.");
+           
+        }
+       do {
+        System.out.println("digite o CEP para o qual deseja a busca: ");
+       
+        cep = S1.next();
+        if(cep.length() !=8){
+			System.out.println("numero inválido. O numero do CEP deve ter 8 caracteres.");
+		}
+	} while (cep.length() != 8 );
+       
+
+        long fimBit = f.length();
+        long inicioBit = 0;
+        long meioBit;
+        long meioEnd;
+        int a = 0;
+        boolean foundFlag = false;
+        
+         
+        while (inicioBit < fimBit && fimBit-inicioBit > 300) {
+            a++;
+            meioBit = (inicioBit + fimBit) / 2;
+            if (meioBit % 300 != 0) {
+                meioEnd = (meioBit - 150) / 300; //Na prática dá no mesmo que simplesmente fazer a divisão
+            } else {
+                meioEnd = meioBit / 300;
+            }
+            f.seek(meioEnd * 300);
+            e.leEndereco(f);
+            int cepDigitado = Integer.parseInt(cep);            
+            if (cepDigitado > Integer.parseInt(e.getCep())) {
+                inicioBit = meioBit;
+         
+            } else if (cepDigitado < Integer.parseInt(e.getCep())) {
+                fimBit = meioBit;                
+           
+            } else {
+                System.out.println(e.getLogradouro());
+                System.out.println(e.getBairro());
+                System.out.println(e.getCidade());
+                System.out.println(e.getEstado());
+                System.out.println(e.getSigla());
+                System.out.println(e.getCep());
+                foundFlag = true;
+                break;
+            }
+        }
+        if (!foundFlag) {
+            System.out.println("CEP não encontrado.");
+        }
+        System.out.println("Numero de buscas executadas: " + a);
+        f.close();
+ S1.close();
+    }
+}
+
